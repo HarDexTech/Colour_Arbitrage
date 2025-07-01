@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Color Generator</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #a4bbb1;
+        padding: 20px;
+      }
+
+      .color-generator {
+        text-align: center;
+        width: 100%;
+        max-width: 400px;
+      }
+
+      .color-box {
+        width: 300px;
+        height: 300px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background-color: #ffffff;
+        margin: 0 auto 20px;
+        border-radius: 10px;
+        box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      #colorCode {
+        font-size: 24px;
+        margin-bottom: 20px;
+        font-weight: bold;
+        font-family: 'Courier New', monospace;
+      }
+
+      #copyButton {
+        padding: 10px 20px;
+        border: none;
+        background-color: black;
+        color: whitesmoke;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.5s;
+        font-size: 14px;
+      }
+
+      #copyButton:hover {
+        background-color: black;
+        color: whitesmoke;
+        box-shadow: 0 0 10px 1px white;
+      }
+      
+      #copyButton:active {
+        scale: 0.93;
+      }
+
+      #generateButton {
+        margin-top: 20px;
+        padding: 10px 20px;
+        border: none;
+        background-color: #4b421b;
+        color: whitesmoke;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.5s;
+        font-size: 14px;
+      }
+
+      #generateButton:hover {
+        background-color: black;
+        color: whitesmoke;
+        box-shadow: 0 0 10px 1px white;
+      }
+      
+      #generateButton:active {
+        scale: 0.93;
+      }
+
+      /* Tablet styles (768px and below) */
+      @media screen and (max-width: 768px) {
+        body {
+          padding: 15px;
+        }
+
+        .color-box {
+          width: 280px;
+          height: 280px;
+        }
+
+        #colorCode {
+          font-size: 22px;
+          margin-bottom: 18px;
+        }
+
+        #copyButton, #generateButton {
+          padding: 12px 24px;
+          font-size: 15px;
+        }
+      }
+
+      /* Mobile landscape (640px and below) */
+      @media screen and (max-width: 640px) {
+        .color-box {
+          width: 250px;
+          height: 250px;
+          box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        #colorCode {
+          font-size: 20px;
+          margin-bottom: 15px;
+        }
+
+        #copyButton, #generateButton {
+          padding: 10px 20px;
+          font-size: 14px;
+        }
+      }
+
+      /* Small mobile (480px and below) */
+      @media screen and (max-width: 480px) {
+        body {
+          padding: 10px;
+        }
+
+        .color-box {
+          width: 220px;
+          height: 220px;
+          margin-bottom: 15px;
+          border-radius: 8px;
+        }
+
+        #colorCode {
+          font-size: 18px;
+          margin-bottom: 12px;
+        }
+
+        #copyButton, #generateButton {
+          padding: 8px 16px;
+          font-size: 13px;
+          border-radius: 6px;
+        }
+
+        #generateButton {
+          margin-top: 15px;
+        }
+      }
+
+      /* Extra small mobile (360px and below) */
+      @media screen and (max-width: 360px) {
+        .color-box {
+          width: 200px;
+          height: 200px;
+        }
+
+        #colorCode {
+          font-size: 16px;
+          margin-bottom: 10px;
+        }
+
+        #copyButton, #generateButton {
+          padding: 8px 14px;
+          font-size: 12px;
+        }
+      }
+
+      /* Very small screens (320px and below) */
+      @media screen and (max-width: 320px) {
+        body {
+          padding: 8px;
+        }
+
+        .color-box {
+          width: 180px;
+          height: 180px;
+          margin-bottom: 12px;
+        }
+
+        #colorCode {
+          font-size: 14px;
+          margin-bottom: 8px;
+        }
+
+        #copyButton, #generateButton {
+          padding: 6px 12px;
+          font-size: 11px;
+        }
+
+        #generateButton {
+          margin-top: 12px;
+        }
+      }
+
+      /* Large screens (1200px and above) */
+      @media screen and (min-width: 1200px) {
+        .color-box {
+          width: 350px;
+          height: 350px;
+          box-shadow: 15px 15px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        #colorCode {
+          font-size: 28px;
+          margin-bottom: 25px;
+        }
+
+        #copyButton, #generateButton {
+          padding: 12px 25px;
+          font-size: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="color-generator">
+      <div class="color-box" id="colorBox">
+        <h2 id="colorCode">#FFFFFF</h2>
+        <button id="copyButton">Copy Color</button>
+      </div>
+      <button id="generateButton">Generate Random Color</button>
+    </div>
+    <script>
+      const colorBox = document.getElementById("colorBox");
+      const colorCode = document.getElementById("colorCode");
+      const generateButton = document.getElementById("generateButton");
+      const copyButton = document.getElementById("copyButton");
+
+      function generateRandomColor() {
+        const randomColor =
+          "#" + Math.floor(Math.random() * 16777215).toString(16);
+        colorBox.style.backgroundColor = randomColor;
+        colorCode.textContent = randomColor.toUpperCase();
+      }
+
+      generateButton.addEventListener("click", generateRandomColor);
+
+      copyButton.addEventListener("click", () => {
+        console.log(colorCode.textContent);
+        navigator.clipboard.writeText(colorCode.textContent);
+      });
+    </script>
+  </body>
+</html>
